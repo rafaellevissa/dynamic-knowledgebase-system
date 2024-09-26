@@ -1,9 +1,13 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import TopicEntity from "../topic/topic.entity";
 
 @Entity()
 export default class ResourceEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
+
+  @ManyToOne(() => TopicEntity)
+  public topic?: TopicEntity;
 
   @Column()
   public topicId: number

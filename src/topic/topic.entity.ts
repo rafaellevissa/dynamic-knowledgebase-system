@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne } from "typeorm";
 
 @Entity()
 @Index("unique_name_version", ["name", "version"], { unique: true })
@@ -25,5 +25,8 @@ export default class TopicEntity extends BaseEntity {
 
 
   @Column({ nullable: true })
-  public parentTopicId?: number;
+  public parentTopicId: number;
+
+  @ManyToOne(() => TopicEntity, { nullable: true })
+  public parentTopic?: TopicEntity;
 }
