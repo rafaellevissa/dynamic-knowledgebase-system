@@ -15,7 +15,7 @@ route.get("/topics/:id", auth, asyncHandler(TopicController.find));
 route.post("/topics/", auth, asyncHandler(TopicController.create));
 route.put("/topics/:id", auth, asyncHandler(TopicController.update));
 route.delete("/topics/:id", auth, asyncHandler(TopicController.delete));
-
+route.get("/topics/:id/subtopics", auth, asyncHandler(TopicController.findWithSubtopics));
 
 route.get("/resources", auth, asyncHandler(ResourceController.all));
 route.get("/resources/:id", auth, asyncHandler(ResourceController.find));

@@ -174,4 +174,36 @@ export default class TopicController {
 
     return res.status(200).json({ message: "Topic deleted successfully" });
   }
+
+  /**
+   * @swagger
+   * /topics/{id}/subtopics:
+   *   get:
+   *     summary: Retrieve a topic and its subtopics
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         required: true
+   *         description: The ID of the topic
+   *         schema:
+   *           type: integer
+   *     responses:
+   *       200:
+   *         description: A topic object with subtopics
+   *       404:
+   *         description: Topic not found
+   */
+  public static async findWithSubtopics(req: Request, res: Response) {
+    const { id } = req.params;
+    const topicId = parseInt(id);
+
+    const topicService = new TopicService();
+    const topic = await topicService.findWithSubtopics(topicId);
+
+    if (!topic) {
+      throw new HttpException(HTTPStatusCode.NOT_FOUND, "Topic not found");
+    }
+
+    return res.status(200).json(topic);
+  }
 }

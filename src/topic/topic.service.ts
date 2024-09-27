@@ -79,4 +79,18 @@ export default class TopicService {
       }
     }
   }
+
+  public async findWithSubtopics(id: number): Promise<any> {
+    const topic = await this.findById(id);
+    if (!topic) return null;
+
+    const subtopics = await this.topicRepository.find({
+      where: { parentTopicId: id },
+    });
+
+    return {
+      ...topic,
+      subtopics: await Promise.all(subtopics.map(subtopic => this.findWithSubtopics(subtopic.id))),
+    };
+  }
 }
