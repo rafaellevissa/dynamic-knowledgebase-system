@@ -4,6 +4,20 @@ import bcrypt from "bcryptjs";
 import { application } from "../common/config/constants";
 import { UserRole } from "../common/data-types";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ */
 @Entity()
 export default class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()

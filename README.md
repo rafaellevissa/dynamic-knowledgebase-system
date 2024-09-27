@@ -20,6 +20,11 @@ docker compose up -d
 
 That's all you need 🎉!
 
+
+## 📖 Swagger
+
+You can access the Swagger documentation at [http://localhost:8079/swagger](http://localhost:8080/swagger).
+
 ## TESTS
 
 You can run the tests with the following command:

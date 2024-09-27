@@ -10,17 +10,17 @@ const route = Router();
 route.post("/login", asyncHandler(UserController.login));
 route.post("/register", asyncHandler(UserController.register));
 
-route.get("/topic", auth, asyncHandler(TopicController.all));
-route.get("/topic/:id", auth, asyncHandler(TopicController.find));
-route.post("/topic", auth, asyncHandler(TopicController.create));
-route.put("/topic/:id", auth, asyncHandler(TopicController.update));
-route.delete("/topic/:id", auth, asyncHandler(TopicController.delete));
+route.get("/topics/", auth, asyncHandler(TopicController.all));
+route.get("/topics/:id", auth, asyncHandler(TopicController.find));
+route.post("/topics/", auth, asyncHandler(TopicController.create));
+route.put("/topics/:id", auth, asyncHandler(TopicController.update));
+route.delete("/topics/:id", auth, asyncHandler(TopicController.delete));
 
 
-route.get("/resource", auth, asyncHandler(ResourceController.all));
-route.get("/resource/:id", auth, asyncHandler(ResourceController.find));
-route.post("/resource", auth, asyncHandler(ResourceController.create));
-route.put("/resource/:id", auth, asyncHandler(ResourceController.update));
-route.delete("/resource/:id", auth, asyncHandler(ResourceController.delete));
+route.get("/resources", auth, asyncHandler(ResourceController.all));
+route.get("/resources/:id", auth, asyncHandler(ResourceController.find));
+route.post("/resources/", auth, asyncHandler(ResourceController.create));
+route.put("/resources/:id", auth, asyncHandler(ResourceController.update));
+route.delete("/resources/:id", auth, asyncHandler(ResourceController.delete));
 
 export default route;
