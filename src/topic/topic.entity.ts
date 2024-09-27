@@ -54,6 +54,6 @@ export default class TopicEntity extends BaseEntity {
   @Column({ nullable: true })
   public parentTopicId: number;
 
-  @ManyToOne(() => TopicEntity, { nullable: true })
+  @ManyToOne(() => TopicEntity, { nullable: true, onDelete: "CASCADE" })
   public parentTopic?: TopicEntity;
 }

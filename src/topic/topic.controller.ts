@@ -206,4 +206,41 @@ export default class TopicController {
 
     return res.status(200).json(topic);
   }
+
+  /**
+   * @swagger
+   * /topics/shortest-path/{startId}/{endId}:
+   *   get:
+   *     summary: Retrieve the shortest path between two topics
+   *     parameters:
+   *       - name: startId
+   *         in: path
+   *         required: true
+   *         description: The ID of the starting topic
+   *         schema:
+   *           type: integer
+   *       - name: endId
+   *         in: path
+   *         required: true
+   *         description: The ID of the ending topic
+   *         schema:
+   *           type: integer
+   *     responses:
+   *       200:
+   *         description: An array representing the shortest path
+   *       404:
+   *         description: One or both topics not found
+   */
+  public static async findShortestPath(req: Request, res: Response) {
+    const { startId, endId } = req.params;
+    const topicService = new TopicService();
+
+    const path = await topicService.findShortestPath(Number(startId), Number(endId));
+
+    if (!path) {
+      throw new HttpException(HTTPStatusCode.NOT_FOUND, "One or both topics not found");
+    }
+
+    return res.status(200).json(path);
+  }
 }

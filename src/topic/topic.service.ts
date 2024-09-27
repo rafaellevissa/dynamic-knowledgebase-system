@@ -32,9 +32,6 @@ export default class TopicService {
     if (!topic) throw new HttpException(HTTPStatusCode.NOT_FOUND, "Topic not found");
 
     const latestVersion = await this.getLatestTopicVersion(topic.name);
-    if (topic.version !== latestVersion) {
-      throw new HttpException(HTTPStatusCode.BAD_REQUEST, "You can only update the latest topic version");
-    }
 
     const updatedTopic = await this.create({
       ...payload,
@@ -92,5 +89,49 @@ export default class TopicService {
       ...topic,
       subtopics: await Promise.all(subtopics.map(subtopic => this.findWithSubtopics(subtopic.id))),
     };
+  }
+
+  public async findShortestPath(startId: number, endId: number): Promise<any> {
+    const graph = await this.buildGraph();
+    const queue: any = [{ id: startId, path: [] }];
+    const visited = new Set<number>();
+
+    while (queue.length > 0) {
+      const { id, path } = queue.shift()!;
+      visited.add(id);
+      const currentPath = [...path, await this.findById(id)];
+
+      if (id === endId) {
+        return currentPath;
+      }
+
+      const neighbors = graph.get(id) || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor.id)) {
+          queue.push({ id: neighbor.id, path: currentPath });
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private async buildGraph(): Promise<Map<number, TopicEntity[]>> {
+    const topics = await this.getTopics();
+    const graph = new Map<number, TopicEntity[]>();
+
+    for (const topic of topics) {
+      graph.set(topic.id, []);
+    }
+
+    for (const topic of topics) {
+      if (topic.parentTopicId) {
+        const neighbors = graph.get(topic.parentTopicId) || [];
+        neighbors.push(topic);
+        graph.set(topic.parentTopicId, neighbors);
+      }
+    }
+
+    return graph;
   }
 }
